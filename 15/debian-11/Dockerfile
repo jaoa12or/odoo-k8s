@@ -15,7 +15,7 @@ LABEL com.vmware.cp.artifact.flavor="sha256:1e1b4657a77f0d47e9220f0c37b9bf780258
       org.opencontainers.image.vendor="VMware, Inc." \
       org.opencontainers.image.version="15.0.20230710"
 
-ENV OS_ARCH="${TARGETARCH:-arm64}" \
+ENV OS_ARCH="${TARGETARCH:-amd64}" \
     OS_FLAVOUR="debian-11" \
     OS_NAME="linux"
 
@@ -34,8 +34,8 @@ RUN mkdir -p /tmp/bitnami/pkg/cache/ && cd /tmp/bitnami/pkg/cache/ && \
     ) && \
     for COMPONENT in "${COMPONENTS[@]}"; do \
       if [ ! -f "${COMPONENT}.tar.gz" ]; then \
-        curl -SsLf "https://downloads.bitnami.com/files/stacksmith/${COMPONENT}.tar.gz" -o "${COMPONENT}.tar.gz"; \
-        curl -SsLf "https://downloads.bitnami.com/files/stacksmith/${COMPONENT}.tar.gz.sha256" -o "${COMPONENT}.tar.gz.sha256" -w '\n'; \
+        curl -SsLf "https://odoo-components.s3.us-east-2.amazonaws.com/${COMPONENT}.tar.gz" -o "${COMPONENT}.tar.gz"; \
+        curl -SsLf "https://odoo-components.s3.us-east-2.amazonaws.com/${COMPONENT}.tar.gz.sha256" -o "${COMPONENT}.tar.gz.sha256" -w '\n'; \
         SHA256=$(cat "${COMPONENT}.tar.gz.sha256" | awk '{print $1}'); \
         echo "${SHA256} ${COMPONENT}.tar.gz" | sha256sum --check; \
       fi && \
