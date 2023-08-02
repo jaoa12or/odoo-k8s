@@ -27,6 +27,9 @@ services:
       - ODOO_DATABASE_PORT_NUMBER=5432
       - ODOO_DATABASE_USER=bn_odoo
       - ODOO_DATABASE_NAME=bitnami_odoo
+      - BITNAMI_DEBUG=true
+      - NAMI_DEBUG=true
+      - NAMI_LOG_LEVEL=trace8
 volumes:
   postgresql_data:
     driver: local
