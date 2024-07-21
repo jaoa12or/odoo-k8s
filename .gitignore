@@ -2,3 +2,5 @@
 **/compressed/*
 **/compressed/**/*
 **/.DS_Store
+**/conf.ini.example
+**/set.ini.example

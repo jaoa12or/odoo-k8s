@@ -31,14 +31,27 @@ RUN mkdir -p /tmp/bitnami/pkg/cache/ ; cd /tmp/bitnami/pkg/cache/ ; \
       "node-18.19.1-0-linux-${OS_ARCH}-debian-12" \
       "odoo-17.0.20240305-0-linux-${OS_ARCH}-debian-12" \
     ) ; \
+    GEOLITE2=( \
+      "GeoLite2-City_20240628.tar.gz" \
+      "GeoLite2-Country_20240628.tar.gz" \
+    ) ; \
     for COMPONENT in "${COMPONENTS[@]}"; do \
       if [ ! -f "${COMPONENT}.tar.gz" ]; then \
-        curl -SsLf "https://odoo-components.s3.us-east-2.amazonaws.com/${COMPONENT}.tar.gz" -O ; \
-        curl -SsLf "https://odoo-components.s3.us-east-2.amazonaws.com/${COMPONENT}.tar.gz.sha256" -O ; \
+        curl -SsLf "https://downloads.bitnami.com/files/stacksmith/${COMPONENT}.tar.gz" -O ; \
+        curl -SsLf "https://downloads.bitnami.com/files/stacksmith/${COMPONENT}.tar.gz.sha256" -O ; \
       fi ; \
       sha256sum -c "${COMPONENT}.tar.gz.sha256" ; \
       tar -zxf "${COMPONENT}.tar.gz" -C /opt/bitnami --strip-components=2 --no-same-owner --wildcards '*/files' ; \
       rm -rf "${COMPONENT}".tar.gz{,.sha256} ; \
+    done\
+    for GEOLITE2 in "${GEOLITE2[@]}"; do \
+      if [ ! -f "${GEOLITE2}" ]; then \
+        curl -SsLf "https://odoo-components.s3.us-east-2.amazonaws.com/${GEOLITE2}" -O ; \
+        curl -SsLf "https://odoo-components.s3.us-east-2.amazonaws.com/${GEOLITE2}.sha256" -O ; \
+      fi ; \
+      sha256sum -c "${GEOLITE2}.sha256" ; \
+      tar -zxf "${GEOLITE2}" -C /usr/share/GeoIP/ --strip-components=1 --no-same-owner ; \
+      rm -rf "${GEOLITE2}" ; \
     done
 RUN apt-get update && apt-get upgrade -y && \
     apt-get clean && rm -rf /var/lib/apt/lists /var/cache/apt/archives
