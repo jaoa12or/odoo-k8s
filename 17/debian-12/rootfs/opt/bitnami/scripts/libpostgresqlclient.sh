@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright VMware, Inc.
+# Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 #
 # Bitnami PostgreSQL Client library
@@ -117,7 +117,7 @@ postgresql_client_initialize() {
     true
 }
 
-# Copyright VMware, Inc.
+# Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 
 # shellcheck disable=SC2148
@@ -176,7 +176,7 @@ postgresql_execute_print_output() {
     local opts
     read -r -a opts <<<"${@:4}"
 
-    local args=("-U" "$user" "-p" "${POSTGRESQL_PORT_NUMBER:-5432}")
+    local args=("-U" "$user" "-p" "${POSTGRESQL_PORT_NUMBER:-5432}" "-h" "127.0.0.1")
     [[ -n "$db" ]] && args+=("-d" "$db")
     [[ "${#opts[@]}" -gt 0 ]] && args+=("${opts[@]}")
 
